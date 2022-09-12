@@ -13,8 +13,12 @@ function Rforms() {
     comments: "",
     isFriendly: false,
     employment: "",
+    favColor: "",
   };
-
+  const [togglePassword, setTogglePassword] = useState(false);
+  const handleShowPassword = () => {
+    setTogglePassword((prevToggle) => !prevToggle);
+  };
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevFormData) => {
@@ -26,10 +30,12 @@ function Rforms() {
   };
 
   const [formData, setFormData] = useState(InitialValues);
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <div>
-      <form action=''>
+      <form action='' onSubmit={handleSubmit}>
         <h1 className='text-center'>MBC REGISTRATION</h1>
         <small>please fill in the form with valid inputs</small>
         <div className='main-form'>
@@ -66,11 +72,14 @@ function Rforms() {
           <div className='formInput'>
             <label htmlFor='password'>Password</label>
             <input
-              type='password'
+              type={togglePassword ? "text" : "password"}
               value={formData.password}
-              name=' password'
+              name='password'
               onChange={handleChange}
             />
+            <button onClick={handleShowPassword}>
+              {togglePassword ? "Hide" : "Show"}
+            </button>
           </div>
 
           <div className='formInput'>
@@ -148,7 +157,11 @@ function Rforms() {
         </div>
 
         <div className='favColor'>
-          <select name='' id='favColor'>
+          <select
+            id='favColor'
+            name='favColor'
+            value={formData.favColor}
+            onChange={handleChange}>
             <option value='red'>Red</option>
             <option value='orange'>Orange</option>
             <option value='yellow'>Yellow</option>
@@ -158,6 +171,8 @@ function Rforms() {
             <option value='violet'>Violet</option>
           </select>
         </div>
+
+        <button type='submit'>Submit</button>
       </form>
     </div>
   );
